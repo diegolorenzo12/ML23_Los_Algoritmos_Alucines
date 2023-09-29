@@ -6,16 +6,16 @@ class NaiveBayes():
 
     def fit(self, X, y):
         # TODO: Calcula la probabilidad de que una muestra sea positiva P(y=1)
-        self.prior_positives = 
+        self.prior_positives = sum(y)/len(y)
 
         # TODO: Calcula la probabilidad de que una muestra sea negativa P(y=0)
-        self.prior_negative = 
+        self.prior_negative = 1-self.prior_positives
 
         # TODO: Para cada palabra del vocabulario x_i
         # calcula la probabilidad de: P(x_i| y=1)
         # Guardalas en un arreglo de numpy:
         # self._likelihoods_positives = [P(x_1| y=1), P(x_2| y=1), ..., P(x_n| y=1)]
-        self._likelihoods_positives = 
+        self._likelihoods_positives = np.zeros(X.shape[1])
         
         # TODO:  Para cada palabra del vocabulario x_i, calcula P(x_i| y=0)
         # Guardalas en un arreglo de numpy:
