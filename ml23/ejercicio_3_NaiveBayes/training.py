@@ -3,9 +3,15 @@ import os
 import numpy as np
 from sklearn.naive_bayes import MultinomialNB
 <<<<<<< HEAD
+<<<<<<< HEAD
     
 from ml23.ejercicio_3_NaiveBayes.preprocessing import get_vocab, preprocess_dataset
 from ml23.ejercicio_3_NaiveBayes.naive_bayes import NaiveBayes
+=======
+
+from ml23.ejercicio_3_NaiveBayes.sol.preprocessing_sol import get_vocab, preprocess_dataset
+from ml23.ejercicio_3_NaiveBayes.sol.naive_bayes_sol import NaiveBayes
+>>>>>>> upstream/master
 =======
 
 from ml23.ejercicio_3_NaiveBayes.sol.preprocessing_sol import get_vocab, preprocess_dataset
