@@ -16,6 +16,7 @@ import os
 import numpy as np
 from utils import to_numpy, to_torch, add_img_text, get_transforms
 import json
+from torchvision import transforms
 
 EMOTIONS_MAP = {
     0: "Enojo",
@@ -28,21 +29,18 @@ EMOTIONS_MAP = {
 }
 file_path = pathlib.Path(__file__).parent.absolute()
 
-def get_loader(split, batch_size, shuffle=True, num_workers=0):
-    '''
-    Get train and validation loaders
-    args:
-        - batch_size (int): batch size
-        - split (str): split to load (train, test or val)
-    '''
-    dataset = FER2013(root=file_path,
-                      split=split)
+def get_loader(split, batch_size, transformations=None, shuffle=True, num_workers=0):
+    dataset = FER2013(
+        root=file_path,
+        split=split,
+        transform=transformations  # Apply transformations here
+    )
     dataloader = DataLoader(
-                dataset,
-                batch_size=batch_size,
-                shuffle=shuffle,
-                num_workers=num_workers,
-        )
+        dataset,
+        batch_size=batch_size,
+        shuffle=shuffle,
+        num_workers=num_workers
+    )
     return dataset, dataloader
 
 class FER2013(Dataset):

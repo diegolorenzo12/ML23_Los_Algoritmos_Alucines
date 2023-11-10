@@ -2,6 +2,7 @@ import datetime as dt
 import pathlib
 import matplotlib
 import matplotlib.pyplot as plt
+matplotlib.use('TkAgg')
 file_path = pathlib.Path(__file__).parent.absolute()
 
 class PlotLosses():
