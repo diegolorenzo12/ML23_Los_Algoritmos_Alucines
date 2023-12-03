@@ -43,6 +43,7 @@ for episode in range(num_episodes):
     if total_reward > best_reward:
         best_reward = total_reward
         agent.save_model("model.bin")
+        agent.Q_eval.update_target_network()
 
 util.plot_rewards(rewards, lr, max_actions)
 env.close()

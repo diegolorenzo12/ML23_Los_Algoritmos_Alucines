@@ -18,6 +18,12 @@ class DeepQNetwork(nn.Module):
         self.loss = nn.MSELoss()
         self.device = T.device('cuda:0' if T.cuda.is_available() else 'cpu')
         self.to(self.device)
+        self.target = DeepQNetwork(lr, input_dims, fc1_dims, fc2_dims, n_actions)
+        self.target.load_state_dict(self.state_dict())
+        self.target.eval()
+
+    def update_target_network(self):
+        self.target.load_state_dict(self.state_dict())
 
     def forward(self, state):
         x = F.relu(self.fc1(state))
@@ -28,7 +34,7 @@ class DeepQNetwork(nn.Module):
     
 class Agent():
     def __init__(self, gamma, epsilon, lr, input_dims, batch_size, n_actions,
-                 max_mem_size=100000, eps_end=0.01, eps_dec=1e-5):
+                 max_mem_size=100000, eps_end=0.01, eps_dec=1e-5, target_update_interval=1000):
         self.gamma = gamma
         self.epsilon = epsilon
         self.eps_min = eps_end
@@ -45,6 +51,9 @@ class Agent():
         self.action_memory = np.zeros(self.mem_size, dtype=np.int32)
         self.reward_memory = np.zeros(self.mem_size, dtype=np.float32)
         self.terminal_memory = np.zeros(self.mem_size, dtype=bool)
+
+        self.target_update_interval = target_update_interval
+        self.target_counter = 0
 
     def store_transition(self, state, action, reward, state_, done):
         index = self.mem_cntr % self.mem_size
@@ -94,6 +103,9 @@ class Agent():
 
         self.epsilon = self.epsilon - self.eps_dec if self.epsilon > self.eps_min \
             else self.eps_min
+        
+        if self.mem_cntr % self.target_update_interval == 0:
+            self.Q_eval.update_target_network()
         
     def save_model(self, filename):
         T.save(self.Q_eval.state_dict(), filename)
