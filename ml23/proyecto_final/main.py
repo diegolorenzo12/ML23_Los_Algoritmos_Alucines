@@ -43,9 +43,6 @@ for episode in range(num_episodes):
     if total_reward > best_reward:
         best_reward = total_reward
         agent.save_model("model.bin")
-        if (max_actions > 300):
-            actions_taken = 300 if actions_taken < 300 else actions_taken
-            max_actions = actions_taken
 
 util.plot_rewards(rewards, lr, max_actions)
 env.close()
