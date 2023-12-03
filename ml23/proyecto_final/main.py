@@ -44,5 +44,5 @@ for episode in range(num_episodes):
         best_reward = total_reward
         agent.save_model("model.bin")
 
-util.plot_rewards(rewards, lr)
+util.plot_rewards(rewards, lr, max_actions)
 env.close()
