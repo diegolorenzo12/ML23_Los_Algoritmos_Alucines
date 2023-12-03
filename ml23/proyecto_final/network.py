@@ -28,7 +28,7 @@ class DeepQNetwork(nn.Module):
     
 class Agent():
     def __init__(self, gamma, epsilon, lr, input_dims, batch_size, n_actions,
-                 max_mem_size=100000, eps_end=0.01, eps_dec=5e-4):
+                 max_mem_size=100000, eps_end=0.01, eps_dec=1e-5):
         self.gamma = gamma
         self.epsilon = epsilon
         self.eps_min = eps_end
@@ -94,3 +94,9 @@ class Agent():
 
         self.epsilon = self.epsilon - self.eps_dec if self.epsilon > self.eps_min \
             else self.eps_min
+        
+    def save_model(self, filename):
+        T.save(self.Q_eval.state_dict(), filename)
+
+    def load_model(self, filename):
+        self.Q_eval.load_state_dict(T.load(filename))
